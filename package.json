@@ -1,0 +1,33 @@
+{
+  "name": "module-starter",
+  "version": "1.0.0",
+  "description": "用于编写 node 的模块的脚手架",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register {src,test}/**/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.code.oa.com/zixun/module-starter.git"
+  },
+  "keywords": [
+    "starter"
+  ],
+  "author": "edvardchen",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-register": "^6.11.6",
+    "eslint": "^3.2.2",
+    "eslint-config-airbnb": "^10.0.0",
+    "eslint-loader": "^1.5.0",
+    "eslint-plugin-import": "^1.12.0",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
+    "eslint-plugin-react": "^6.0.0",
+    "should": "^10.0.0",
+    "webpack": "^1.13.1",
+    "webpack-node-externals": "^1.3.3"
+  }
+}

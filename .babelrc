@@ -1,0 +1,4 @@
+{
+  "ignore": ["**/*{Jce,Proxy}.js"],
+  "presets": ["es2015"]
+}
