@@ -4,6 +4,8 @@
   "description": "用于编写 node 的模块的脚手架",
   "main": "lib/index.js",
   "scripts": {
+    "watch": "webpack --watch",
+    "build": "babel src --out-dir lib  --compact=false",
     "test": "mocha --compilers js:babel-core/register {src,test}/**/*.spec.js"
   },
   "repository": {
