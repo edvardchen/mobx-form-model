@@ -1,4 +1,11 @@
 {
   "ignore": ["**/*{Jce,Proxy}.js"],
-  "presets": ["es2015"]
+  "presets": ["es2015"],
+  "env": {
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  }
 }
