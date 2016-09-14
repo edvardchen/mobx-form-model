@@ -1,6 +1,5 @@
 ## 安装
 开发
-
 ```bash 
 npm install
 npm run watch
@@ -8,6 +7,16 @@ npm run watch
 发布
 ```bash
 npm run build
+```
+
+## 测试
+单元测试
+```bash
+npm test
+```
+代码覆盖率测试
+```bash
+npm run test-cov
 ```
 
 ## 特性
