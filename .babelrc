@@ -1,6 +1,7 @@
 {
   "ignore": ["**/*{Jce,Proxy}.js"],
   "presets": ["es2015"],
+  "plugins": ["transform-decorators-legacy"],
   "env": {
     "test": {
       "plugins": [
