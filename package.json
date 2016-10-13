@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "watch": "webpack --watch",
-    "build": "babel src --out-dir lib  --compact=false",
+    "build": "babel src --out-dir lib  --compact=false --ignore=*.spec.js",
     "test": "mocha --compilers js:babel-core/register src/**/*.spec.js",
     "test-cov": "cross-env NODE_ENV=test nyc --reporter=lcov mocha src/**/*.spec.js && opn coverage/lcov-report/index.html"
   },
