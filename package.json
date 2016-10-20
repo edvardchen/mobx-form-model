@@ -6,8 +6,11 @@
   "scripts": {
     "watch": "webpack --watch",
     "build": "babel src --out-dir lib  --compact=false --ignore=*.spec.js",
-    "test": "mocha --compilers js:babel-core/register src/**/*.spec.js",
-    "test-cov": "cross-env NODE_ENV=test nyc --reporter=lcov mocha src/**/*.spec.js && opn coverage/lcov-report/index.html"
+    "test-file": "mocha --compilers js:babel-core/register",
+    "test": "npm run test-file -- src/**/*.spec.js",
+    "cov-open": "opn coverage/lcov-report/index.html",
+    "cov-file": "cross-env NODE_ENV=test nyc --reporter=lcov mocha",
+    "coverage": "npm run cov-file -- src/**/*.spec.js && npm run cov-open"
   },
   "repository": {
     "type": "git",
