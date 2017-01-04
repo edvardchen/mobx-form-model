@@ -1,5 +1,7 @@
 extends: airbnb
 parser: babel-eslint
+env: 
+  mocha: true
 rules:
   comma-dangle: 0
   linebreak-style: 0
