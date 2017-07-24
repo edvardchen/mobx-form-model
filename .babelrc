@@ -1,7 +1,24 @@
 {
-  "ignore": ["**/*{Jce,Proxy}.js"],
-  "presets": ['node6', 'stage-1'],
-  "plugins": ["transform-decorators-legacy"],
+  "ignore": [
+    "**/*{Jce,Proxy}.js"
+  ],
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ],
+    "flow"
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-export-extensions",
+    "transform-object-rest-spread",
+    "transform-decorators-legacy"
+  ],
   "env": {
     "test": {
       "plugins": [
