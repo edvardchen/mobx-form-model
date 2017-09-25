@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "prepublishOnly": "npm run lint && npm run test && npm run build",
+    "postpublish": "git push",
     "lint": "eslint --ignore-pattern src/*.spec.js ./src",
     "build": "babel src --out-dir lib  --compact=false --ignore=*.spec.js",
     "test-file": "mocha --compilers js:babel-register",
