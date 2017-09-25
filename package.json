@@ -4,7 +4,7 @@
   "description": "用于编写 node 的模块的脚手架",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run lint && npm run test && npm run build",
+    "prepublishOnly": "npm run lint && npm run test && npm run build",
     "lint": "eslint --ignore-pattern src/*.spec.js ./src",
     "build": "babel src --out-dir lib  --compact=false --ignore=*.spec.js",
     "test-file": "mocha --compilers js:babel-register",
