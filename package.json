@@ -2,6 +2,9 @@
   "name": "module-starter",
   "version": "1.0.0",
   "description": "用于编写 node 的模块的脚手架",
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "scripts": {
     "prepublishOnly": "npm run lint && npm run test && npm run build",

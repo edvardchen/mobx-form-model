@@ -1,6 +1,0 @@
-.*
-src/
-dist/
-coverage/
-node_modules/
-webpack.config.js
