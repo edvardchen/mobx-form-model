@@ -1,7 +1,7 @@
 {
-  "name": "module-starter",
-  "version": "1.0.0",
-  "description": "用于编写 node 的模块的脚手架",
+  "name": "mobx-form",
+  "version": "0.9.0",
+  "description": "Form controller based on Mobx",
   "files": [
     "lib"
   ],
@@ -29,10 +29,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NoChapter/npm-module-starter.git"
+    "url": "https://NoChapter@bitbucket.org/NoChapter/mobx-form.git"
   },
   "keywords": [
-    "starter"
+    "Mobx",
+    "form"
   ],
   "author": "edvardchen",
   "license": "ISC",
