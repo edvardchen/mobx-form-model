@@ -1,17 +1,14 @@
-/*
- * @Author: edvardchen
- * @Date:   2016-08-19 22:49:08
- * @Last Modified by:   edvardchen
- * @Last Modified time: 2016-08-31 12:12:59
- */
-
 import 'should';
 
-import greeting from './';
+import FormController from './';
 
-describe('greeting', () => {
-  it('type check', () => {
-    greeting.should.be.type('function');
-    greeting();
+describe('mobx-form', () => {
+  describe('FormController', () => {
+    it('dirty', () => {
+      const ctrl = new FormController('');
+      ctrl.dirty.should.be.false();
+      ctrl.update('abc');
+      ctrl.dirty.should.be.true();
+    });
   });
 });

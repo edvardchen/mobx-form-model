@@ -74,5 +74,8 @@
       "node_modules",
       "**/*.spec.js"
     ]
+  },
+  "dependencies": {
+    "mobx": "^5.1.0"
   }
 }
