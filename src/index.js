@@ -104,7 +104,7 @@ export default class FormController<T = string> extends Base
   @action.bound
   update(newValue: T) {
     this.value = newValue;
-    this.pristine = false;
+    this.markAsDirty();
     this.runValidators();
   }
 
@@ -120,8 +120,8 @@ export default class FormController<T = string> extends Base
 
   @action.bound
   reset(newValue: T) {
-    this.pristine = true;
     this.value = newValue;
+    this.markAsPristine();
     this.runValidators();
   }
 }
@@ -139,6 +139,7 @@ export class FormControllerGroup<T: Controllers> extends Base
       this.ctrls[key].setParent(this);
     });
     this.validators = validators;
+    this.runValidators();
   }
 
   @computed
