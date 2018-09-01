@@ -5,6 +5,10 @@ parser: babel-eslint
 env:
   mocha: true
 rules:
+  no-unused-expressions:
+    - 2
+    - allowShortCircuit: true
+      allowTernary: true
   comma-dangle: 0
   linebreak-style: 0
   no-unused-vars:
