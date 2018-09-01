@@ -12,6 +12,7 @@ type Errors = { [string]: any };
 export type validateFn = IController => Errors | void;
 
 interface IController {
+  +errors: ?Errors;
   +ctrls?: Controllers;
   +value: any;
   +dirty: boolean;
@@ -31,36 +32,24 @@ interface IEnable {
 }
 
 class Base implements IWithParent, IEnable {
-  _parent: ?FormControllerGroup<*>;
+  parent: ?FormControllerGroup<*>;
   setParent(parent: FormControllerGroup<*>) {
-    this._parent = parent;
-  }
-  get parent() {
-    return this._parent;
+    this.parent = parent;
   }
 
   @observable
-  _enabled = true;
-
-  @computed
-  get enabled() {
-    return this._enabled;
-  }
+  enabled = true;
   @action.bound
   disable() {
-    this._enabled = false;
+    this.enabled = false;
   }
   @action.bound
   enable() {
-    this._enabled = true;
+    this.enabled = true;
   }
 
   @observable
-  _errors: ?Errors;
-  @computed
-  get errors() {
-    return this._errors;
-  }
+  errors: ?Errors;
 
   validators: validateFn[] = [];
 }
@@ -107,11 +96,9 @@ export default class FormController<T = string> extends Base
 
   @action.bound
   runValidators() {
-    this._errors = reduceRunValidators(this, this.validators);
-    if (this._parent) {
-      // run cross-controller validators
-      this._parent.runValidators();
-    }
+    this.errors = reduceRunValidators(this, this.validators);
+    // run cross-controller validators
+    this.parent && this.parent.runValidators();
   }
 
   @action.bound
@@ -178,10 +165,8 @@ export class FormControllerGroup<T: Controllers> extends Base
 
   @action.bound
   runValidators() {
-    this._errors = reduceRunValidators(this, this.validators);
-    if (this._parent) {
-      this._parent.runValidators();
-    }
+    this.errors = reduceRunValidators(this, this.validators);
+    this.parent && this.parent.runValidators();
   }
 
   get value() {
