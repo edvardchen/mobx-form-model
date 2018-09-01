@@ -39,16 +39,30 @@ class Base implements IWithParent, IEnable {
     return this._parent;
   }
 
+  @observable
   _enabled = true;
+
+  @computed
   get enabled() {
     return this._enabled;
   }
+  @action.bound
   disable() {
     this._enabled = false;
   }
+  @action.bound
   enable() {
     this._enabled = true;
   }
+
+  @observable
+  _errors: ?Errors;
+  @computed
+  get errors() {
+    return this._errors;
+  }
+
+  validators: validateFn[] = [];
 }
 
 export type AbstractController = FormController<any> | FormControllerGroup<any>;
@@ -69,11 +83,6 @@ const reduceRunValidators = (
 
 export default class FormController<T = string> extends Base
   implements IController {
-  @observable
-  errors: ?Errors;
-
-  validators: validateFn[];
-
   @observable
   value: T;
 
@@ -98,7 +107,7 @@ export default class FormController<T = string> extends Base
 
   @action.bound
   runValidators() {
-    this.errors = reduceRunValidators(this, this.validators);
+    this._errors = reduceRunValidators(this, this.validators);
     if (this._parent) {
       // run cross-controller validators
       this._parent.runValidators();
@@ -134,9 +143,6 @@ type Controllers = { [string]: * };
 
 export class FormControllerGroup<T: Controllers> extends Base
   implements IController {
-  @observable
-  errors: ?Errors;
-  validators: validateFn[];
   ctrls: T; // controllers
 
   constructor(group: T, validators: validateFn[] = []) {
@@ -172,7 +178,7 @@ export class FormControllerGroup<T: Controllers> extends Base
 
   @action.bound
   runValidators() {
-    this.errors = reduceRunValidators(this, this.validators);
+    this._errors = reduceRunValidators(this, this.validators);
     if (this._parent) {
       this._parent.runValidators();
     }
