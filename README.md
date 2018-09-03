@@ -1,24 +1,25 @@
-## 安装
-开发
-```bash 
-npm install
-npm run watch
-```
-发布
+Simple form controller that supports to validating and dirty-checking based on [Mobx](https://mobx.js.org/). Most features are copied from [Angular forms](https://angular.io/guide/reactive-forms)
+
 ```bash
-npm run build
+npm install -S mobx-form
 ```
 
-## 测试
-单元测试
-```bash
-npm test
-```
-代码覆盖率测试
-```bash
-npm run test-cov
-```
+## Examples
 
-## 特性
-+ 支持 ES6
-+ 支持 ESLint，默认使用 [eslint-config-airbnb](https://www.npmjs.com/package/eslint-config-airbnb) 扩展
+```javascript
+// Simple Controller
+import FormController from 'mobx-form';
+
+const ctrl = new FormController('', [
+  ({ value }) =>
+    value == null || !value.length ? { required: 'value required' } : undefined
+]);
+
+ctrl.valid; // false
+ctrl.errors.required; // value required
+
+ctrl.update('hello');
+ctrl.valid; // true
+ctrl.errors; // undefined
+ctrl.dirty; // true
+```
