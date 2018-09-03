@@ -3,14 +3,14 @@
 Simple form controller that supports to validating and dirty-checking based on [Mobx](https://mobx.js.org/). Most features are copied from [Angular forms](https://angular.io/guide/reactive-forms)
 
 ```bash
-npm install -S mobx-form
+npm install -S mobx-form-model
 ```
 
 ## Examples
 
 ```javascript
 // Simple Controller
-import FormController from 'mobx-form';
+import FormController from 'mobx-form-model';
 
 const ctrl = new FormController('', [
   ({ value }) =>
