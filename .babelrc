@@ -2,20 +2,21 @@
   "ignore": ["**/*{Jce,Proxy}.js"],
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
           "node": "current"
         }
       }
     ],
-    "flow"
+    "@babel/preset-flow"
   ],
   "plugins": [
-    "transform-decorators-legacy",
-    "transform-class-properties",
-    "transform-export-extensions",
-    "transform-object-rest-spread"
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-object-rest-spread"
   ],
   "env": {
     "test": {
