@@ -1,13 +1,15 @@
 // @flow
 import should from 'should';
 
-import FormController, { FormControllerGroup } from '.';
+import FormController, { FormControllerGroup, FormControllerArray } from '.';
 
 declare var describe: any;
 declare var it: any;
 
 const required = ({ value }) =>
-  value == null || !value.length ? { required: true } : undefined;
+  value == null || (value.length !== undefined && value.length === 0)
+    ? { required: true }
+    : undefined;
 
 describe('mobx-form', () => {
   describe('FormController', () => {
@@ -128,5 +130,87 @@ describe('mobx-form', () => {
 
     nestedForm.ctrls.firstStep.ctrls.birthday.update('1988-01-01');
     nestedForm.valid.should.be.true();
+  });
+
+  describe('FormControllerArray', () => {
+    it('value', () => {
+      const parent = new FormControllerArray([
+        new FormController('hello'),
+        new FormController(' world')
+      ]);
+      parent.value.join('').should.be.equal('hello world');
+      parent.ctrls[1].update(' Jimmy');
+      parent.value.join('').should.be.equal('hello Jimmy');
+    });
+
+    it('dirty', () => {
+      const parent = new FormControllerArray([
+        new FormController('hello'),
+        new FormController(' world')
+      ]);
+
+      parent.dirty.should.be.false();
+      parent.ctrls[1].update('Jimmy');
+      parent.dirty.should.be.true();
+      parent.markAsPristine();
+      parent.dirty.should.be.false();
+    });
+  });
+
+  it('valid', () => {
+    const parent = new FormControllerArray([
+      new FormController('hello'),
+      new FormController('', [required])
+    ]);
+    parent.valid.should.be.false();
+    parent.ctrls[1].disable();
+    parent.valid.should.be.true();
+    parent.ctrls[1].enable();
+    parent.valid.should.be.false();
+    parent.ctrls[1].update(' world');
+    parent.valid.should.be.true();
+  });
+
+  it('cross-controller validator', () => {
+    const parent = new FormControllerArray(
+      [new FormController('hello'), new FormController('')],
+      [
+        array =>
+          array.value.every(item => item.length >= 4)
+            ? undefined
+            : { minLength: true }
+      ]
+    );
+    parent.valid.should.be.false();
+    parent.ctrls[1].update('world');
+    parent.valid.should.be.true();
+  });
+
+  it('nexted', () => {
+    const parent = new FormControllerArray(
+      [
+        new FormController('hello', [required]),
+        new FormControllerGroup(
+          {
+            name: new FormController('Jimmy'),
+            age: new FormController(16, [required])
+          },
+          [required]
+        )
+      ],
+      [
+        array => {
+          const [greeting, person] = array.ctrls;
+          return greeting.value === 'hello' && person.value.age < 18
+            ? { dangerous: true }
+            : undefined;
+        }
+      ]
+    );
+
+    parent.value.should.be.deepEqual(['hello', { name: 'Jimmy', age: 16 }]);
+    parent.valid.should.be.false();
+    parent.ctrls[1].ctrls.age.update(20);
+    parent.valid.should.be.true();
   });
 });

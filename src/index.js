@@ -135,26 +135,16 @@ export class FormControllerGroup<T: Controllers> extends Base
   constructor(group: T, validators: validateFn[] = []) {
     super();
     this.ctrls = group;
-    Object.keys(this.ctrls).forEach(key => {
-      this.ctrls[key].setParent(this);
-    });
     this.validators = validators;
+    this.children().forEach(item => {
+      item.setParent(this);
+    });
     this.runValidators();
   }
 
   @computed
   get dirty(): boolean {
     return this.children().some(item => item.enabled && item.dirty);
-  }
-
-  markAsPristine() {
-    this.children().forEach(item => {
-      item.markAsPristine();
-    });
-  }
-
-  children() {
-    return Object.keys(this.ctrls).map(key => this.ctrls[key]);
   }
 
   @computed
@@ -164,16 +154,72 @@ export class FormControllerGroup<T: Controllers> extends Base
     );
   }
 
+  get value() {
+    return Object.keys(this.ctrls).reduce(
+      (acc, key) => ({ ...acc, [key]: this.ctrls[key].value }),
+      {}
+    );
+  }
+
+  children() {
+    return Object.keys(this.ctrls).map(key => this.ctrls[key]);
+  }
+
+  markAsPristine() {
+    this.children().forEach(item => {
+      item.markAsPristine();
+    });
+  }
+
+  @action.bound
+  runValidators() {
+    this.errors = reduceRunValidators(this, this.validators);
+    this.parent && this.parent.runValidators();
+  }
+}
+
+export class FormControllerArray extends Base implements IController {
+  ctrls: IController[];
+
+  constructor(ctrls: IController[], validators: validateFn[] = []) {
+    super();
+    this.ctrls = ctrls;
+    this.validators = validators;
+    this.children().forEach(item => {
+      item.setParent(this);
+    });
+    this.runValidators();
+  }
+
+  @computed
+  get dirty(): boolean {
+    return this.children().some(item => item.enabled && item.dirty);
+  }
+
+  @computed
+  get valid(): boolean {
+    return (
+      !this.errors && this.children().every(item => !item.enabled || item.valid)
+    );
+  }
+
+  get value() {
+    return this.children().map(item => item.value);
+  }
+
+  children() {
+    return this.ctrls;
+  }
+
   @action.bound
   runValidators() {
     this.errors = reduceRunValidators(this, this.validators);
     this.parent && this.parent.runValidators();
   }
 
-  get value() {
-    return Object.keys(this.ctrls).reduce(
-      (acc, key) => ({ ...acc, [key]: this.ctrls[key].value }),
-      {}
-    );
+  markAsPristine() {
+    this.children().forEach(item => {
+      item.markAsPristine();
+    });
   }
 }
