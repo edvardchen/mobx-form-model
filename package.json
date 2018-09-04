@@ -72,7 +72,7 @@
     "sourceMap": false,
     "instrument": false,
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
     "exclude": [
       "node_modules",
