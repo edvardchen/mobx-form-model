@@ -48,7 +48,7 @@ class Base implements IWithParent, IEnable {
     this.enabled = true;
   }
 
-  @observable
+  @observable.ref
   errors: ?Errors;
 
   validators: validateFn[] = [];
@@ -72,7 +72,7 @@ const reduceRunValidators = (
 
 export default class FormController<T = string> extends Base
   implements IController {
-  @observable
+  @observable.ref
   value: T;
 
   @observable
