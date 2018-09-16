@@ -1,6 +1,8 @@
 // @flow
 import should from 'should';
 
+import { configure } from 'mobx';
+
 import FormController, { FormControllerGroup, FormControllerArray } from '.';
 
 declare var describe: any;
@@ -12,6 +14,10 @@ const required = ({ value }) =>
     : undefined;
 
 describe('mobx-form', () => {
+  configure({
+    // $FlowFixMe
+    enforceActions: 'always'
+  });
   describe('FormController', () => {
     it('dirty', () => {
       const ctrl = new FormController('');
@@ -199,7 +205,7 @@ describe('mobx-form', () => {
         )
       ],
       [
-        array => {
+        (array: FormControllerArray) => {
           const [greeting, person] = array.ctrls;
           return greeting.value === 'hello' && person.value.age < 18
             ? { dangerous: true }
