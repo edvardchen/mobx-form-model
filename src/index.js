@@ -169,6 +169,7 @@ export class FormControllerGroup<T: ControllerMap> extends Base {
     );
   }
 
+  @computed
   get value() {
     return Object.keys(this.ctrls).reduce(
       (acc, key) => ({ ...acc, [key]: this.ctrls[key].value }),
@@ -218,6 +219,7 @@ export class FormControllerArray extends Base {
     );
   }
 
+  @computed
   get value(): *[] {
     return this.children().map(item => item.value);
   }
