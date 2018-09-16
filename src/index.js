@@ -11,29 +11,33 @@ type Errors = { [string]: any };
 /* eslint-disable no-use-before-define */
 export type validateFn = IController => Errors | void;
 
+export type AbstractController = IController;
+
+type ControllerMap = {
+  [key: string]: IController
+};
+
 interface IController {
   +errors: ?Errors;
-  +ctrls?: Controllers;
+  +ctrls?: ControllerMap | IController[];
   +value: any;
   +dirty: boolean;
   +valid: boolean;
   markAsPristine(): void; // 表单提交后，可以设置为 pristine，避免反复提交
-}
 
-interface IWithParent {
-  +parent: ?FormControllerGroup<*>;
-  setParent(FormControllerGroup<*>): void;
-}
+  +parent: ?Parent;
+  setParent(Parent): void;
 
-interface IEnable {
   +enabled: boolean;
   enable(): void;
   disable(): void;
 }
 
-class Base implements IWithParent, IEnable {
-  parent: ?FormControllerGroup<*>;
-  setParent(parent: FormControllerGroup<*>) {
+type Parent = FormControllerGroup<any> | FormControllerArray;
+
+class Base implements IController {
+  parent: ?Parent;
+  setParent(parent: Parent) {
     this.parent = parent;
   }
 
@@ -50,11 +54,26 @@ class Base implements IWithParent, IEnable {
 
   @observable.ref
   errors: ?Errors;
-
   validators: validateFn[] = [];
-}
 
-export type AbstractController = FormController<any> | FormControllerGroup<any>;
+  // flow doesn't support abstract method
+  /* eslint-disable class-methods-use-this */
+  get dirty() {
+    throw new Error('You should implememnt dirty getter');
+  }
+
+  get valid() {
+    throw new Error('You should implememnt valid getter');
+  }
+
+  get value() {
+    throw new Error('You should implememnt value getter');
+  }
+
+  markAsPristine() {
+    throw new Error('You should implememnt markAsPristine method');
+  }
+}
 
 const reduceRunValidators = (
   c: AbstractController,
@@ -70,8 +89,7 @@ const reduceRunValidators = (
   return newErrors;
 };
 
-export default class FormController<T = string> extends Base
-  implements IController {
+export default class FormController<T = string> extends Base {
   @observable.ref
   value: T;
 
@@ -126,11 +144,8 @@ export default class FormController<T = string> extends Base
   }
 }
 
-type Controllers = { [string]: * };
-
-export class FormControllerGroup<T: Controllers> extends Base
-  implements IController {
-  ctrls: T; // controllers
+export class FormControllerGroup<T: ControllerMap> extends Base {
+  ctrls: T;
 
   constructor(group: T, validators: validateFn[] = []) {
     super();
@@ -161,7 +176,7 @@ export class FormControllerGroup<T: Controllers> extends Base
     );
   }
 
-  children() {
+  children(): IController[] {
     return Object.keys(this.ctrls).map(key => this.ctrls[key]);
   }
 
@@ -178,7 +193,7 @@ export class FormControllerGroup<T: Controllers> extends Base
   }
 }
 
-export class FormControllerArray extends Base implements IController {
+export class FormControllerArray extends Base {
   ctrls: IController[];
 
   constructor(ctrls: IController[], validators: validateFn[] = []) {
@@ -203,7 +218,7 @@ export class FormControllerArray extends Base implements IController {
     );
   }
 
-  get value() {
+  get value(): *[] {
     return this.children().map(item => item.value);
   }
 
