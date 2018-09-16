@@ -1,6 +1,6 @@
 {
   "name": "mobx-form-model",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Form controller based on Mobx",
   "files": [
     "lib",
