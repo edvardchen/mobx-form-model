@@ -14,7 +14,7 @@ export type validateFn = IController => Errors | void;
 export type AbstractController = IController;
 
 type ControllerMap = {
-  [key: string]: IController
+  +[key: string]: IController
 };
 
 interface IController {
