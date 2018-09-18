@@ -121,9 +121,8 @@ export default class FormController<T = string> extends Base {
 
   @action.bound
   update(newValue: T) {
-    this.value = newValue;
+    this.replace(newValue);
     this.markAsDirty();
-    this.runValidators();
   }
 
   @action.bound
@@ -137,10 +136,15 @@ export default class FormController<T = string> extends Base {
   }
 
   @action.bound
-  reset(newValue: T) {
+  replace(newValue: T) {
     this.value = newValue;
-    this.markAsPristine();
     this.runValidators();
+  }
+
+  @action.bound
+  reset(newValue: T) {
+    this.replace(newValue);
+    this.markAsPristine();
   }
 }
 
