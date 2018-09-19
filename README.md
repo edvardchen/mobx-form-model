@@ -67,8 +67,10 @@ const form = new FormControllerGroup({
 - enable()
 - markAsPristine() 将`dirty`设置为`false`，比如表单提交之前先检查`dirty`，用户没修改表单就无需重复提交，那在表单提交后调用 `markAsPristine()` 就可以避免重复提交已经提交的表单。
 
-### Controler's `update(newValue)`
+### Change Controler's value
 
-1. 更新 value
-2. 标记 dirty 为 true
-3. 执行 validators
+|                   |                                                              |     |     |     |
+| ----------------- | ------------------------------------------------------------ | --- | --- | --- |
+| update(newValue)  | 更新 value<br/> 标记 dirty 为 `true` <br/> 校验数据          |
+| replace(newValue) | 更新 value<br/> <del>标记 dirty 为 true</del> <br/> 校验数据 |
+| reset(newValue)   | 更新 value<br/> 标记 dirty 为 `false` <br/> 校验数据         |
