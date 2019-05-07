@@ -1,6 +1,8 @@
 # Document is Working in progress. Welcome to fork :)
 
-Minimal form model that supports to validating and dirty-checking based on [Mobx](https://mobx.js.org/). Most features are copied from [Angular forms](https://angular.io/guide/reactive-forms)
+Minimal form model that supports to validating and dirty-checking based on [Mobx](https://mobx.js.org/).
+
+Most features are copied from [Angular forms](https://angular.io/guide/reactive-forms)
 
 ```bash
 npm install -S mobx-form-model
@@ -52,9 +54,9 @@ const form = new FormControllerGroup({
 
 #### Properties
 
-- value. 当窍的值
+- value，当前的值
 - valid, `true` 表示当前没有错误
-- ditry, 表示值是否变更过。
+- dirty, 表示值是否变更过。
 - errors, 所有`validator`执行玩合并后的结果
 
 * enabled, 表示当前`controller`是否有效。`false`表示当前`controller`不会影响`parent controller`的`valid`、`dirty`值。
